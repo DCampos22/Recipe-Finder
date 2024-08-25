@@ -12,13 +12,13 @@ def index():
     # Get user input for cuisine, diet, max protein, and type
     cuisine = flask.request.args.get('cuisine', '')
     diet = flask.request.args.get('diet', '')
-    max_protein = flask.request.args.get('max_protein', '')
+    min_protein = flask.request.args.get('min_protein', '')
     meal_type = flask.request.args.get('type', '')
 
     # Log the input for debugging
     print("User input -> Cuisine: " + cuisine)
     print("User input -> Diet: " + diet)
-    print("User input -> Max Protein: " + max_protein)
+    print("User input -> Min Protein: " + min_protein)
     print("User input -> Type: " + meal_type)
 
     # Construct the API request URL using string concatenation
@@ -27,8 +27,8 @@ def index():
         url += '&cuisine=' + cuisine
     if diet:
         url += '&diet=' + diet
-    if max_protein:
-        url += '&maxProtein=' + max_protein
+    if min_protein:
+        url += '&minProtein=' + min_protein
     if meal_type:
         url += '&type=' + meal_type
 
