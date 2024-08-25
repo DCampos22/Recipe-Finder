@@ -1,41 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>{{ title }}</h1>
-        </header>
+    <header>
+        <h1>{{ title }}</h1>
+    </header>
 
+    <main class="container">
         <section class="recipe-details">
             <img src="{{ image }}" alt="{{ title }}" class="recipe-image">
-            
-            <div class="info">
-                <h2>Ingredients</h2>
-                <ul>
+            <h2>Ingredients</h2>
+            <ul>
                 {% for ingredient in ingredients %}
                     <li>{{ ingredient }}</li>
                 {% endfor %}
-                </ul>
-            </div>
+            </ul>
             
-            <div class="nutritional-info">
+            {% if nutrients %}
                 <h2>Nutritional Information</h2>
-                {% if nutrients %}
-                    <p><strong>Calories:</strong> {{ nutrients.calories }} kcal</p>
-                    <p><strong>Fat:</strong> {{ nutrients.fat }} </p>
-                    <p><strong>Carbohydrates:</strong> {{ nutrients.carbs }} </p>
-                    <p><strong>Protein:</strong> {{ nutrients.protein }}</p>
-                {% else %}
-                    <p>No nutritional information available.</p>
-                {% endif %}
-            </div>
-            
-            <a href="/" class="back-button">Back to Search</a>
+                <ul>
+                    <li>Calories: {{ nutrients.calories }}</li>
+                    <li>Fat: {{ nutrients.fat }}</li>
+                    <li>Protein: {{ nutrients.protein }}</li>
+                    <li>Carbs: {{ nutrients.carbs }}</li>
+                </ul>
+            {% endif %}
         </section>
-    </div>
+
+        <a href="{{ url_for('index') }}">Back to Search</a>
+    </main>
 </body>
 </html>

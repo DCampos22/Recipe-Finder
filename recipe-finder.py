@@ -7,7 +7,7 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
-    API_KEY = '6d5fd88d59114c4ea4c6f01b976ab165'  # Replace with your actual API key
+    API_KEY = '56f65a88cf8d44f29e7b53332e594c10'  # Replace with your actual API key
 
     # Get user input for cuisine, diet, max protein, and type
     cuisine = flask.request.args.get('cuisine', '')
@@ -34,48 +34,58 @@ def index():
 
     # Log the full URL for debugging
     print("API Request URL: " + url)
-    
+
     response = requests.get(url)
     json_body = response.json()
-    
+
     # Log the JSON response for debugging
     print("API Response: " + json.dumps(json_body, indent=2))
-    
-    # Extract relevant data (image and source URL)
+
+    # Extract relevant data (image, source URL, and ready in minutes)
     recipes = []
     for recipe in json_body.get('results', []):
-        image_url = recipe.get('image')
+        recipe_id = recipe.get('id')
+        
+        # Fetch additional information about the recipe
+        info_url = 'https://api.spoonacular.com/recipes/{}/information?includeNutrition=false&apiKey={}'.format(recipe_id, API_KEY)
+        info_response = requests.get(info_url)
+        info_json = info_response.json()
+        
         recipes.append({
-            'id': recipe.get('id'),
+            'id': recipe_id,
             'title': recipe.get('title'),
-            'image': image_url,
-            'sourceUrl': recipe.get('sourceUrl')
+            'image': recipe.get('image'),
+            'sourceUrl': info_json.get('sourceUrl'),
+            'readyInMinutes': info_json.get('readyInMinutes')
         })
 
     return flask.render_template("index.html", recipes=recipes)
 
-# Route to display recipe details and ingredients
 @app.route('/recipe/<int:recipe_id>')
 def recipe_details(recipe_id):
-    API_KEY = '6d5fd88d59114c4ea4c6f01b976ab165'  # Replace with your actual API key
+    API_KEY = '56f65a88cf8d44f29e7b53332e594c10'  # Replace with your actual API key
     
-    # Fetch recipe information
-    recipe_url = 'https://api.spoonacular.com/recipes/' + str(recipe_id) + '/information?apiKey=' + API_KEY
+    # Fetch recipe information with nutrition data disabled
+    recipe_url = 'https://api.spoonacular.com/recipes/{}/information?includeNutrition=false&apiKey={}'.format(recipe_id, API_KEY)
     response = requests.get(recipe_url)
     recipe_info = response.json()
-    
-    ingredients = [ingredient['original'] for ingredient in recipe_info['extendedIngredients']]
-    
-    # Fetch nutritional information
-    nutrients_url = 'https://api.spoonacular.com/recipes/' + str(recipe_id) + '/nutritionWidget.json?apiKey=' + API_KEY
-    response = requests.get(nutrients_url)
-    nutrients_info = response.json()
 
-    return flask.render_template("recipe.html", 
-                                 title=recipe_info['title'], 
-                                 image=recipe_info['image'], 
+    # Extract ingredients
+    ingredients = [ingredient['original'] for ingredient in recipe_info.get('extendedIngredients', [])]
+
+    # Optionally, if you want to fetch nutritional information separately
+    # Fetch nutritional information (if needed)
+    nutrients_url = 'https://api.spoonacular.com/recipes/{}/nutritionWidget.json?apiKey={}'.format(recipe_id, API_KEY)
+    nutrients_response = requests.get(nutrients_url)
+    nutrients_info = nutrients_response.json()
+
+    # Return the recipe details and nutritional information
+    return flask.render_template("recipe.html",
+                                 title=recipe_info.get('title'),
+                                 image=recipe_info.get('image'),
                                  ingredients=ingredients,
                                  nutrients=nutrients_info)
+    
 
 # Run the app
 app.run(

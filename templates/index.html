@@ -10,7 +10,7 @@
     <header>
         <h1>Recipe Finder</h1>
     </header>
-    
+
     <main class="container">
         <section class="search-section">
             <h2>Search Recipes</h2>
@@ -48,8 +48,13 @@
                             <img src="{{ recipe.image }}" alt="{{ recipe.title }}" class="recipe-image">
                             <div class="recipe-info">
                                 <h3 class="recipe-title">{{ recipe.title }}</h3>
+                                <!-- Ready in minutes info -->
+                                <p class="ready-in-minutes">Ready in: {{ recipe.readyInMinutes }} minutes</p>
                                 <div class="button-group">
-                                    <a href="{{ recipe.sourceUrl }}" class="view-recipe-button">View Recipe</a>
+                                   <!-- Source URL as button -->
+                                    {% if recipe.sourceUrl %}
+                                        <a href="{{ recipe.sourceUrl }}" target="_blank" class="source-url-button">Recipe Source</a>
+                                    {% endif %}
                                     <a href="{{ url_for('recipe_details', recipe_id=recipe.id) }}" class="see-ingredients-button">See Ingredients</a>
                                 </div>
                             </div>
@@ -63,7 +68,5 @@
             </section>
         {% endif %}
     </main>
-    
-    
 </body>
 </html>
