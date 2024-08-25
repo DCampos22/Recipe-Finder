@@ -7,18 +7,18 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
-    API_KEY = '2bb32b28f20f4f639f15dfa0200c703c'  # Replace with your actual API key
+    API_KEY = '6d5fd88d59114c4ea4c6f01b976ab165'  # Replace with your actual API key
 
     # Get user input for cuisine, diet, max protein, and type
     cuisine = flask.request.args.get('cuisine', '')
     diet = flask.request.args.get('diet', '')
-    min_protein = flask.request.args.get('min_protein', '')
+    max_protein = flask.request.args.get('max_protein', '')
     meal_type = flask.request.args.get('type', '')
 
     # Log the input for debugging
     print("User input -> Cuisine: " + cuisine)
     print("User input -> Diet: " + diet)
-    print("User input -> Min Protein: " + min_protein)
+    print("User input -> Max Protein: " + max_protein)
     print("User input -> Type: " + meal_type)
 
     # Construct the API request URL using string concatenation
@@ -27,8 +27,8 @@ def index():
         url += '&cuisine=' + cuisine
     if diet:
         url += '&diet=' + diet
-    if min_protein:
-        url += '&minProtein=' + min_protein
+    if max_protein:
+        url += '&maxProtein=' + max_protein
     if meal_type:
         url += '&type=' + meal_type
 
@@ -57,7 +57,7 @@ def index():
 # Route to display recipe details and ingredients
 @app.route('/recipe/<int:recipe_id>')
 def recipe_details(recipe_id):
-    API_KEY = '2bb32b28f20f4f639f15dfa0200c703c'  # Replace with your actual API key
+    API_KEY = '6d5fd88d59114c4ea4c6f01b976ab165'  # Replace with your actual API key
     
     # Fetch recipe information
     recipe_url = 'https://api.spoonacular.com/recipes/' + str(recipe_id) + '/information?apiKey=' + API_KEY
