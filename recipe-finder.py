@@ -5,17 +5,20 @@ import json
 
 app = flask.Flask(__name__)
 
+
 @app.route('/')
 def index():
-    API_KEY = '56f65a88cf8d44f29e7b53332e594c10'  # Replace with your actual API key
+    API_KEY = '2011295bf54741e9820adfe12420f3d0'  # Replace with your actual API key = 2011295bf54741e9820adfe12420f3d0
 
-    # Get user input for cuisine, diet, max protein, and type
+    # Get user input for search query, cuisine, diet, max protein, and type
+    query = flask.request.args.get('query', '')
     cuisine = flask.request.args.get('cuisine', '')
     diet = flask.request.args.get('diet', '')
     max_protein = flask.request.args.get('max_protein', '')
     meal_type = flask.request.args.get('type', '')
 
     # Log the input for debugging
+    print("User input -> Query: " + query)
     print("User input -> Cuisine: " + cuisine)
     print("User input -> Diet: " + diet)
     print("User input -> Max Protein: " + max_protein)
@@ -23,6 +26,8 @@ def index():
 
     # Construct the API request URL using string concatenation
     url = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=' + API_KEY
+    if query:
+        url += '&query=' + query
     if cuisine:
         url += '&cuisine=' + cuisine
     if diet:
@@ -60,10 +65,11 @@ def index():
         })
 
     return flask.render_template("index.html", recipes=recipes)
-
+    
+    
 @app.route('/recipe/<int:recipe_id>')
 def recipe_details(recipe_id):
-    API_KEY = '56f65a88cf8d44f29e7b53332e594c10'  # Replace with your actual API key
+    API_KEY = '2011295bf54741e9820adfe12420f3d0'  # Replace with your actual API key
     
     # Fetch recipe information with nutrition data disabled
     recipe_url = 'https://api.spoonacular.com/recipes/{}/information?includeNutrition=false&apiKey={}'.format(recipe_id, API_KEY)

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Search</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
     <header>
@@ -16,23 +17,32 @@
             <h2>Search Recipes</h2>
             <form action="/" method="get" class="search-form">
                 <div class="form-group">
-                    <label for="cuisine">Cuisine:</label>
-                    <input type="text" id="cuisine" name="cuisine" placeholder="e.g., Italian">
+                    <label for="query">Search:</label>
+                    <input type="text" id="query" name="query" placeholder="e.g., pasta, chicken">
                 </div>
 
-                <div class="form-group">
-                    <label for="diet">Diet:</label>
-                    <input type="text" id="diet" name="diet" placeholder="e.g., vegan">
-                </div>
+                <button type="button" class="filter-button" onclick="toggleFilters()">&#x1F50D; Filters</button>
+                
+                <div id="filter-section" class="filter-section hidden">
+                    <div class="form-group">
+                        <label for="cuisine">Cuisine:</label>
+                        <input type="text" id="cuisine" name="cuisine" placeholder="e.g., Italian">
+                    </div>
 
-                <div class="form-group">
-                    <label for="max_protein">Max Protein (grams):</label>
-                    <input type="number" id="max_protein" name="max_protein" placeholder="e.g., 30">
-                </div>
+                    <div class="form-group">
+                        <label for="diet">Diet:</label>
+                        <input type="text" id="diet" name="diet" placeholder="e.g., vegan">
+                    </div>
 
-                <div class="form-group">
-                    <label for="type">Type:</label>
-                    <input type="text" id="type" name="type" placeholder="e.g., breakfast">
+                    <div class="form-group">
+                        <label for="max_protein">Max Protein (grams):</label>
+                        <input type="number" id="max_protein" name="max_protein" placeholder="e.g., 30">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type">Type:</label>
+                        <input type="text" id="type" name="type" placeholder="e.g., breakfast">
+                    </div>
                 </div>
 
                 <button type="submit" class="search-button">Find Recipes</button>
@@ -48,15 +58,9 @@
                             <img src="{{ recipe.image }}" alt="{{ recipe.title }}" class="recipe-image">
                             <div class="recipe-info">
                                 <h3 class="recipe-title">{{ recipe.title }}</h3>
-                                <!-- Ready in minutes info -->
-                                <p class="ready-in-minutes">Ready in: {{ recipe.readyInMinutes }} minutes</p>
-                                <div class="button-group">
-                                   <!-- Source URL as button -->
-                                    {% if recipe.sourceUrl %}
-                                        <a href="{{ recipe.sourceUrl }}" target="_blank" class="source-url-button">Recipe Source</a>
-                                    {% endif %}
-                                    <a href="{{ url_for('recipe_details', recipe_id=recipe.id) }}" class="see-ingredients-button">See Ingredients</a>
-                                </div>
+                                <p>Ready in {{ recipe.readyInMinutes }} minutes</p>
+                                <a href="{{ recipe.sourceUrl }}" class="source-url-button">Source</a>
+                                <a href="{{ url_for('recipe_details', recipe_id=recipe.id) }}" class="see-ingredients-button">See Ingredients</a>
                             </div>
                         </div>
                     {% endfor %}
@@ -68,5 +72,6 @@
             </section>
         {% endif %}
     </main>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
