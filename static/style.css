@@ -7,7 +7,7 @@ body {
 }
 
 header {
-    background-color: #aebdc3;
+    background-color: #8BC34A;
     color: #fff;
     padding: 15px;
     text-align: center;
@@ -65,13 +65,15 @@ input[type="number"] {
 
 /* Filter button and dropdown */
 .filter-button {
-    background-color: #007bff;
+    background-color: #42A5F5;
     color: white;
     border: none;
-    padding: 5px;
     cursor: pointer;
     border-radius: 6px;
-    font-size: 16px;
+    font-size: 15px;
+    margin-top: 25px;
+    height: 40px;
+    width: 80px; /* Adjust this value to make the button smaller horizontally */
     transition: background-color 0.3s;
 }
 
@@ -123,10 +125,16 @@ input[type="number"] {
 .recipe-card {
     background: #fff;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     max-width: 300px;
     text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recipe-card:hover {
+    transform: scale(1.05); /* Slightly shrink the card */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Adjust shadow for a 2D effect */
 }
 
 .recipe-image {
