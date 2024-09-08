@@ -8,7 +8,7 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
-    API_KEY = '5c54397af8994b99a2e0599c9cdb53f3'  # Replace with your actual API key = 5c54397af8994b99a2e0599c9cdb53f3
+    API_KEY = '5c54397af8994b99a2e0599c9cdb53f3'  
 
     # Get user input for search query, cuisine, diet, max protein, and type
     query = flask.request.args.get('query', '')
