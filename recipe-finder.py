@@ -2,13 +2,16 @@ import flask
 import os
 import requests
 import json
+from dotenv import load_dotenv
 
 app = flask.Flask(__name__)
 
 
 @app.route('/')
 def index():
-    API_KEY = '4c2f017aaeb24de0b90fc40d6ab07200'  
+    load_dotenv()
+    
+    API_KEY = os.getenv("SPOONACULAR_API_KEY")
 
     # Get user input for search query, cuisine, diet, max protein, and type
     query = flask.request.args.get('query', '')
