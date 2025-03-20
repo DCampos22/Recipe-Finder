@@ -2,16 +2,13 @@ import flask
 import os
 import requests
 import json
-from dotenv import load_dotenv
 
 app = flask.Flask(__name__)
 
 
 @app.route('/')
 def index():
-    load_dotenv()
-    
-    API_KEY = os.getenv("SPOONACULAR_API_KEY")
+    API_KEY = '5c54397af8994b99a2e0599c9cdb53f3'  
 
     # Get user input for search query, cuisine, diet, max protein, and type
     query = flask.request.args.get('query', '')
@@ -72,7 +69,7 @@ def index():
     
 @app.route('/recipe/<int:recipe_id>')
 def recipe_details(recipe_id):
-    API_KEY = '4c2f017aaeb24de0b90fc40d6ab07200'  
+    API_KEY = '5c54397af8994b99a2e0599c9cdb53f3'  # Replace with your actual API key
     
     # Fetch recipe information with nutrition data disabled
     recipe_url = 'https://api.spoonacular.com/recipes/{}/information?includeNutrition=false&apiKey={}'.format(recipe_id, API_KEY)
@@ -82,7 +79,8 @@ def recipe_details(recipe_id):
     # Extract ingredients
     ingredients = [ingredient['original'] for ingredient in recipe_info.get('extendedIngredients', [])]
 
-    # Fetch nutritional information 
+    # Optionally, if you want to fetch nutritional information separately
+    # Fetch nutritional information (if needed)
     nutrients_url = 'https://api.spoonacular.com/recipes/{}/nutritionWidget.json?apiKey={}'.format(recipe_id, API_KEY)
     nutrients_response = requests.get(nutrients_url)
     nutrients_info = nutrients_response.json()
