@@ -9,7 +9,7 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
-    API_KEY = '4c2f017aaeb24de0b90fc40d6ab07200'  
+    API_KEY = os.environ.get('SPOONACULAR_API_KEY')
 
     # Get user input for search query, cuisine, diet, max protein, and type
     query = flask.request.args.get('query', '')
@@ -70,7 +70,7 @@ def index():
     
 @app.route('/recipe/<int:recipe_id>')
 def recipe_details(recipe_id):
-    API_KEY = '4c2f017aaeb24de0b90fc40d6ab07200'  
+    API_KEY = os.environ.get('SPOONACULAR_API_KEY')
     
     # Fetch recipe information with nutrition data disabled
     recipe_url = 'https://api.spoonacular.com/recipes/{}/information?includeNutrition=false&apiKey={}'.format(recipe_id, API_KEY)
