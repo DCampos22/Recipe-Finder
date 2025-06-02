@@ -1,7 +1,8 @@
 import requests
 import json
+import os
 
-API_KEY = '6d5fd88d59114c4ea4c6f01b976ab165'
+API_KEY = os.environ.get('SPOONACULAR_API_KEY')
 url = f'https://api.spoonacular.com/recipes/complexSearch?cuisine=italian&apiKey={API_KEY}'
 title_to_find = "Turkey Tomato Cheese Pizza"
 
